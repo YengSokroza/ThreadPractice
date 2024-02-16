@@ -10,20 +10,20 @@ public class SentencePrinter {
 
         Thread thread1 = new Thread(() -> {
             synchronized (lock) {
-                printSign(true, sentence1);
                 printSentence(sentence1);
             }
         });
         Thread thread2 = new Thread(() -> {
             synchronized (lock) {
-                printSign(true, sentence2);
+                printSign("*", sentence2);
                 printSentence(sentence2);
+                printSign("-", sentence2);
             }
         });
         Thread thread3 = new Thread(() -> {
             synchronized (lock) {
                 printSentence(sentence4);
-                printSign(false, sentence4);
+                printSign(".", sentence4);
                 printSentence(sentence5);
 
             }
@@ -43,16 +43,50 @@ public class SentencePrinter {
         }
     }
 
-    static void printSign(boolean sign, String sentence) {
+    static void printSign(String sign, String sentence) {
         int sentenceLength = sentence.length();
-        if (sign) {
+        if (sign.equalsIgnoreCase("*")) {
+            String asterisk = "*".repeat(sentenceLength);
+            for (char c : asterisk.toCharArray()) {
+                System.out.print(c);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!sentence.equalsIgnoreCase("Downloading")) {
+                System.out.println();
+            }
+        } else if(sign.equalsIgnoreCase(".")){
+            String point = ".".repeat(sentenceLength);
+            for (char c : point.toCharArray()) {
+                System.out.print(c);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+//            if (sentence.equalsIgnoreCase("Downloading")) {
+//                System.out.print(point);
+//            }
+        }else if(sign.equalsIgnoreCase("-")){
+            String dash = "-".repeat(sentenceLength);
+            for (char c : dash.toCharArray()) {
+                System.out.print(c);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!sentence.equalsIgnoreCase("Downloading")) {
+                System.out.println();
+            }
+        }else{
             String asterisk = "*".repeat(sentenceLength);
             System.out.println(asterisk);
-        } else {
-            String point = ".".repeat(sentenceLength);
-            if (sentence.equalsIgnoreCase("Downloading")) {
-                System.out.print(point);
-            }
         }
     }
 
